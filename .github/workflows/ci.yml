@@ -1,0 +1,48 @@
+name: Docker CI
+on: push
+env:
+  DOCKER_BUILDKIT: 1
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build dockerpi:vm
+        run: docker build -t lukechilds/dockerpi:vm --target dockerpi-vm .
+      - name: Build dockerpi
+        run: docker build -t lukechilds/dockerpi:latest --target dockerpi .
+      - name: Log image data
+        run: docker images lukechilds/dockerpi
+      - name: Save image tarballs
+        run: |
+          mkdir -p images &&
+          images=$(docker images lukechilds/dockerpi --format "{{.Repository}}:{{.Tag}}")
+          for image in $images; do docker save $image | gzip > "images/$(echo $image |  tr '/' '-').tgz"
+      - name: Print sha256sum of built image
+        run: sha256sum images/*
+      - name: Upload image tarballs
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: images
+          path: images/
+  publish:
+    name: Publish
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+      - name: Download image tarballs
+        uses: actions/download-artifact@v1.0.0
+        with:
+          name: images
+      - name: Print sha256sum of all images
+        run: sha256sum images/*
+      - name: Load image tarballs
+        run: for image in images/*; do docker load -i $image; done
+      - name: Log image data
+        run: docker images lukechilds/dockerpi
+      - name: Login to Docker Hub
+        run: echo "${{secrets.DOCKER_TOKEN}}" | docker login -u=lukechilds --password-stdin
+      - name: Push to Docker Hub
+        run: docker push lukechilds/dockerpi
