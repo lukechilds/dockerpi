@@ -3,7 +3,7 @@ LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 
 ADD https://github.com/dhruvvyas90/qemu-rpi-kernel/archive/master.zip /tmp/qemu-rpi-kernel-master.zip
 
-RUN cd /tmp && unzip qemu-rpi-kernel-master.zip -d ~ && rm -rf /tmp/*
+RUN cd /tmp && unzip qemu-rpi-kernel-master.zip -d /root && rm -rf /tmp/*
 
 VOLUME /filesystem.img
 
