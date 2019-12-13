@@ -19,7 +19,7 @@ jobs:
           mkdir -p images
           images=$(docker images lukechilds/dockerpi --format "{{.Repository}}:{{.Tag}}")
           for image in $images; do
-            docker save $image | gzip > "images/$(echo $image |  tr '/' '-').tgz"
+            docker save $image | gzip > "images/$(echo $image | tr '/' '-' | tr ':' '-').tgz"
           done
       - name: Print sha256sum of built image
         run: sha256sum images/*
