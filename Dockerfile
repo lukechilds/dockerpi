@@ -3,7 +3,7 @@ LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 
 ADD https://github.com/dhruvvyas90/qemu-rpi-kernel/archive/master.zip /tmp/qemu-rpi-kernel-master.zip
 
-RUN unzip /tmp/qemu-rpi-kernel-master.zip -d ~ && rm -rf /tmp/*
+RUN cd /tmp && unzip qemu-rpi-kernel-master.zip -d ~ && rm -rf /tmp/*
 
 VOLUME /filesystem.img
 
@@ -28,4 +28,4 @@ LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 
 ADD http://downloads.raspberrypi.org/raspbian/images/raspbian-2019-09-30/2019-09-26-raspbian-buster.zip /tmp/filesystem.zip
 
-RUN unzip /tmp/*.zip -d /tmp && mv /tmp/*.img /filesystem.img && rm -rf /tmp/*
+RUN cd /tmp && unzip *.zip && mv *.img /filesystem.img && rm -rf /tmp/*
