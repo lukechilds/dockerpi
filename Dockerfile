@@ -28,4 +28,4 @@ LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 
 ADD http://downloads.raspberrypi.org/raspbian/images/raspbian-2019-09-30/2019-09-26-raspbian-buster.zip /tmp/filesystem.zip
 
-RUN unzip /tmp/*.zip && mv /tmp/*.img /filesystem.img && rm -rf /tmp/*
+RUN unzip /tmp/*.zip -d /tmp && mv /tmp/*.img /filesystem.img && rm -rf /tmp/*
