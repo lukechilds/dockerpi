@@ -1,9 +1,9 @@
 FROM qemu/arm as dockerpi-vm
 LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 
-ADD https://github.com/dhruvvyas90/qemu-rpi-kernel/archive/master.zip /tmp/qemu-rpi-kernel-master.zip
+ADD https://github.com/dhruvvyas90/qemu-rpi-kernel/archive/afe411f2c9b04730bcc6b2168cdc9adca224227c.zip /tmp/qemu-rpi-kernel.zip
 
-RUN cd /tmp && unzip qemu-rpi-kernel-master.zip -d /root && rm -rf /tmp/*
+RUN cd /tmp && mkdir -p /root/qemu-rpi-kernel && unzip qemu-rpi-kernel.zip && cp -r qemu-rpi-kernel-*/* /root/qemu-rpi-kernel/ && rm -rf /tmp/*
 
 VOLUME /filesystem.img
 
@@ -15,8 +15,8 @@ CMD [ \
   "-hda", "/filesystem.img", \
   "-net", "nic", \
   "-net", "user,hostfwd=tcp::5022-:22", \
-  "-dtb", "/root/qemu-rpi-kernel-master/versatile-pb.dtb", \
-  "-kernel", "/root/qemu-rpi-kernel-master/kernel-qemu-4.19.50-buster", \
+  "-dtb", "/root/qemu-rpi-kernel/versatile-pb.dtb", \
+  "-kernel", "/root/qemu-rpi-kernel/kernel-qemu-4.19.50-buster", \
   "-append", "root=/dev/sda2 panic=1", \
   "-no-reboot", \
   "-display", "none", \
