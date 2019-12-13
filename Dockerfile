@@ -1,4 +1,4 @@
-FROM qemu/arm as dockerpi-base
+FROM qemu/arm as dockerpi-vm
 LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 
 ADD https://github.com/dhruvvyas90/qemu-rpi-kernel/archive/master.zip /tmp/qemu-rpi-kernel-master.zip
@@ -22,3 +22,10 @@ CMD [ \
   "-display", "none", \
   "-serial", "mon:stdio" \
 ]
+
+FROM dockerpi-vm as dockerpi
+LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
+
+ADD http://downloads.raspberrypi.org/raspbian/images/raspbian-2019-09-30/2019-09-26-raspbian-buster.zip /tmp/filesystem.zip
+
+RUN unzip /tmp/*.zip && mv /tmp/*.img /filesystem.img && rm -rf /tmp/*
