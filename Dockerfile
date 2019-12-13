@@ -3,7 +3,7 @@ LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 
 ADD https://github.com/dhruvvyas90/qemu-rpi-kernel/archive/afe411f2c9b04730bcc6b2168cdc9adca224227c.zip /tmp/qemu-rpi-kernel.zip
 
-RUN cd /tmp && mkdir -p /root/qemu-rpi-kernel && unzip qemu-rpi-kernel.zip && cp -r qemu-rpi-kernel-*/* /root/qemu-rpi-kernel/ && rm -rf /tmp/*
+RUN cd /tmp && mkdir -p /root/qemu-rpi-kernel && unzip qemu-rpi-kernel.zip && cp -r qemu-rpi-kernel-*/* /root/qemu-rpi-kernel/ && rm -rf /tmp/* /root/qemu-rpi-kernel/README.md /root/qemu-rpi-kernel/tools
 
 VOLUME /filesystem.img
 
