@@ -1,3 +1,7 @@
+<div align="center">
+	<img width="250" src="media/logo.svg">
+</div>
+
 # dockerpi
 
 [![Actions Status](https://badgen.net/github/checks/lukechilds/dockerpi?icon=github&label=Build%20Status)](https://github.com/lukechilds/dockerpi/actions)
