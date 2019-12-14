@@ -9,7 +9,7 @@ RUN cd /tmp && \
     cp -r qemu-rpi-kernel-*/* /root/qemu-rpi-kernel/ && \
     rm -rf /tmp/* /root/qemu-rpi-kernel/README.md /root/qemu-rpi-kernel/tools
 
-VOLUME /data
+VOLUME /sdcard
 
 ADD ./entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]

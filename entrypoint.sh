@@ -1,6 +1,6 @@
 #!/bin/sh
 
-image_path="/data/filesystem.img"
+image_path="/sdcard/filesystem.img"
 zip_path="/filesystem.zip"
 
 if [ ! -e $image_path ] && [ -e $zip_path ]; then
@@ -14,7 +14,7 @@ exec qemu-system-arm \
   -M versatilepb \
   -cpu arm1176 \
   -m 256M \
-  -hda /data/filesystem.img \
+  -hda /sdcard/filesystem.img \
   -net nic \
   -net user,hostfwd=tcp::5022-:22 \
   -dtb /root/qemu-rpi-kernel/versatile-pb.dtb \
