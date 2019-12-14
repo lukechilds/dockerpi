@@ -49,8 +49,8 @@ ADD https://github.com/dhruvvyas90/qemu-rpi-kernel/archive/afe411f2c9b04730bcc6b
 
 RUN cd /tmp && \
     echo "$RPI_KERNEL_CHECKSUM  qemu-rpi-kernel.zip" | sha256sum -c && \
-    mkdir -p /root/qemu-rpi-kernel && \
     unzip qemu-rpi-kernel.zip && \
+    mkdir -p /root/qemu-rpi-kernel && \
     cp -r qemu-rpi-kernel-*/* /root/qemu-rpi-kernel/ && \
     rm -rf /tmp/* /root/qemu-rpi-kernel/README.md /root/qemu-rpi-kernel/tools
 
