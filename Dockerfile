@@ -41,12 +41,14 @@ RUN strip "arm-softmmu/qemu-system-arm"
 FROM busybox:1.31 AS dockerpi-vm
 LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 ARG QEMU_VERSION
+ENV RPI_KERNEL_CHECKSUM="295a22f1cd49ab51b9e7192103ee7c917624b063cc5ca2e11434164638aad5f4"
 
 COPY --from=qemu-system-arm-builder /qemu/arm-softmmu/qemu-system-arm /usr/local/bin/qemu-system-arm
 
 ADD https://github.com/dhruvvyas90/qemu-rpi-kernel/archive/afe411f2c9b04730bcc6b2168cdc9adca224227c.zip /tmp/qemu-rpi-kernel.zip
 
 RUN cd /tmp && \
+    echo "$RPI_KERNEL_CHECKSUM  qemu-rpi-kernel.zip" | sha256sum -c && \
     mkdir -p /root/qemu-rpi-kernel && \
     unzip qemu-rpi-kernel.zip && \
     cp -r qemu-rpi-kernel-*/* /root/qemu-rpi-kernel/ && \
