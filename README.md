@@ -1,5 +1,5 @@
 <div align="center">
-	<img width="250" src="media/logo.svg">
+	<img width="256" src="media/logo.svg">
 </div>
 
 # dockerpi
