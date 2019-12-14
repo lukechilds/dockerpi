@@ -29,7 +29,7 @@ RUN apt-get -y install python build-essential libglib2.0-dev libpixman-1-dev
 # These don't seem to be required but are specified here: https://wiki.qemu.org/Hosts/Linux
 RUN apt-get -y install libfdt-dev zlib1g-dev
 # Not required or specified anywhere but supress build warnings
-RUN apt-get -y install pkg-config flex bison
+RUN apt-get -y install flex bison
 RUN "qemu-${QEMU_VERSION}/configure" --static --target-list=arm-softmmu
 RUN make -j$(nproc)
 
