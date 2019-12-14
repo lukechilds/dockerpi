@@ -15,15 +15,15 @@ if [ ! -e $image_path ]; then
 fi
 
 exec qemu-system-arm \
-  -M versatilepb \
-  -cpu arm1176 \
-  -m 256M \
-  -hda /sdcard/filesystem.img \
-  -net nic \
-  -net user,hostfwd=tcp::5022-:22 \
-  -dtb /root/qemu-rpi-kernel/versatile-pb.dtb \
-  -kernel /root/qemu-rpi-kernel/kernel-qemu-4.19.50-buster \
-  -append "root=/dev/sda2 panic=1" \
-  -no-reboot \
-  -display none \
-  -serial mon:stdio
+  --machine versatilepb \
+  --cpu arm1176 \
+  --m 256M \
+  --hda /sdcard/filesystem.img \
+  --net nic \
+  --net user,hostfwd=tcp::5022-:22 \
+  --dtb /root/qemu-rpi-kernel/versatile-pb.dtb \
+  --kernel /root/qemu-rpi-kernel/kernel-qemu-4.19.50-buster \
+  --append "root=/dev/sda2 panic=1" \
+  --no-reboot \
+  --display none \
+  --serial mon:stdio
