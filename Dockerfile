@@ -64,4 +64,5 @@ ENTRYPOINT ["./entrypoint.sh"]
 # It's just the VM image with a compressed Raspbian filesystem added
 FROM dockerpi-vm as dockerpi
 LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
-ADD http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-09-30/2019-09-26-raspbian-buster-lite.zip /filesystem.zip
+ARG FILESYSTEM_IMAGE_URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-09-30/2019-09-26-raspbian-buster-lite.zip"
+ADD $FILESYSTEM_IMAGE_URL /filesystem.zip
