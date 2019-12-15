@@ -9,7 +9,7 @@ WORKDIR /qemu
 RUN # Update package lists
 RUN apt-get update
 
-RUN # Pull source and verify signatures
+RUN # Pull source
 RUN apt-get -y install wget
 RUN wget "https://download.qemu.org/${QEMU_TARBALL}"
 
