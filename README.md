@@ -27,7 +27,7 @@ This is not just a Raspian Docker image, it's a full ARM based Raspberry Pi virt
 docker run -it lukechilds/dockerpi
 ```
 
-By default all filesystem changes will lost on shutdown. You can persist filesystem changes between reboots by mounting the `/sdcard` volume on your host:
+By default all filesystem changes will be lost on shutdown. You can persist filesystem changes between reboots by mounting the `/sdcard` volume on your host:
 
 ```
 docker run -it -v $HOME/.dockerpi:/sdcard lukechilds/dockerpi
