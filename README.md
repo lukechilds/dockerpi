@@ -93,6 +93,10 @@ Build the VM only image with:
 docker build -t lukechilds/dockerpi:vm --target dockerpi-vm .
 ```
 
+## Credit
+
+Thanks to [@dhruvvyas90](https://github.com/dhruvvyas90) for his [dhruvvyas90/qemu-rpi-kernel](https://github.com/dhruvvyas90/qemu-rpi-kernel) repo.
+
 ## License
 
 MIT © Luke Childs
