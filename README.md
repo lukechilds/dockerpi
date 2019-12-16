@@ -87,6 +87,12 @@ Build this image yourself by checking out this repo, `cd` ing into it and runnin
 docker build -t lukechilds/dockerpi .
 ```
 
+Build the VM only image with:
+
+```
+docker build -t lukechilds/dockerpi:vm --target dockerpi-vm .
+```
+
 ## License
 
 MIT © Luke Childs
