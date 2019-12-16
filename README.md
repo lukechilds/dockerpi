@@ -17,6 +17,10 @@ Gives you access to a virtualised ARM based Raspberry Pi machine running the Ras
 
 This is not just a Raspian Docker image, it's a full ARM based Raspberry Pi virtual machine environment.
 
+<div align="center">
+	<img src="media/demo.svg" width="720">
+</div>
+
 ## Usage
 
 ```
