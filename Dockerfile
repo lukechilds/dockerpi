@@ -52,8 +52,9 @@ RUN cd /tmp && \
     echo "$RPI_KERNEL_CHECKSUM  qemu-rpi-kernel.zip" | sha256sum -c && \
     unzip qemu-rpi-kernel.zip && \
     mkdir -p /root/qemu-rpi-kernel && \
-    cp -r qemu-rpi-kernel-*/* /root/qemu-rpi-kernel/ && \
-    rm -rf /tmp/* /root/qemu-rpi-kernel/README.md /root/qemu-rpi-kernel/tools
+    cp qemu-rpi-kernel-*/kernel-qemu-4.19.50-buster /root/qemu-rpi-kernel/ && \
+    cp qemu-rpi-kernel-*/versatile-pb.dtb /root/qemu-rpi-kernel/ && \
+    rm -rf /tmp/*
 
 VOLUME /sdcard
 
