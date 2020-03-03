@@ -37,8 +37,8 @@ RUN strip "arm-softmmu/qemu-system-arm" "aarch64-softmmu/qemu-system-aarch64"
 
 # Build stage for fatcat
 FROM debian:stable-slim AS fatcat-builder
-ARG FATCAT_VERSION=1.1.0
-ENV FATCAT_TARBALL="v${FATCAT_VERSION}.tar.gz"
+ARG FATCAT_VERSION=v1.1.0
+ENV FATCAT_TARBALL="${FATCAT_VERSION}.tar.gz"
 WORKDIR /fatcat
 
 RUN # Update package lists
@@ -53,7 +53,7 @@ RUN tar xvf "${FATCAT_TARBALL}"
 
 RUN # Build source
 RUN apt-get -y install build-essential cmake
-RUN cmake "fatcat-${FATCAT_VERSION}" -DCMAKE_CXX_FLAGS='-static'
+RUN cmake fatcat-* -DCMAKE_CXX_FLAGS='-static'
 RUN make -j$(nproc)
 
 
