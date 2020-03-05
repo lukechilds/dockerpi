@@ -1,5 +1,5 @@
 # Build stage for qemu-system-arm
-FROM debian:stable-slim AS qemu-system-arm-builder
+FROM debian:stable-slim AS qemu-builder
 ARG QEMU_VERSION=4.2.0
 ENV QEMU_TARBALL="qemu-${QEMU_VERSION}.tar.xz"
 WORKDIR /qemu
@@ -37,8 +37,9 @@ RUN strip "arm-softmmu/qemu-system-arm" "aarch64-softmmu/qemu-system-aarch64"
 
 # Build stage for fatcat
 FROM debian:stable-slim AS fatcat-builder
-ARG FATCAT_VERSION=1.1.0
-ENV FATCAT_TARBALL="v${FATCAT_VERSION}.tar.gz"
+ARG FATCAT_VERSION=v1.1.0
+ARG FATCAT_CHECKSUM="303efe2aa73cbfe6fbc5d8af346d0f2c70b3f996fc891e8859213a58b95ad88c"
+ENV FATCAT_TARBALL="${FATCAT_VERSION}.tar.gz"
 WORKDIR /fatcat
 
 RUN # Update package lists
@@ -47,13 +48,14 @@ RUN apt-get update
 RUN # Pull source
 RUN apt-get -y install wget
 RUN wget "https://github.com/Gregwar/fatcat/archive/${FATCAT_TARBALL}"
+RUN echo "${FATCAT_CHECKSUM} ${FATCAT_TARBALL}" | sha256sum --check
 
 RUN # Extract source tarball
 RUN tar xvf "${FATCAT_TARBALL}"
 
 RUN # Build source
 RUN apt-get -y install build-essential cmake
-RUN cmake "fatcat-${FATCAT_VERSION}" -DCMAKE_CXX_FLAGS='-static'
+RUN cmake fatcat-* -DCMAKE_CXX_FLAGS='-static'
 RUN make -j$(nproc)
 
 
@@ -63,8 +65,8 @@ LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
 ARG RPI_KERNEL_URL="https://github.com/dhruvvyas90/qemu-rpi-kernel/archive/afe411f2c9b04730bcc6b2168cdc9adca224227c.zip"
 ARG RPI_KERNEL_CHECKSUM="295a22f1cd49ab51b9e7192103ee7c917624b063cc5ca2e11434164638aad5f4"
 
-COPY --from=qemu-system-arm-builder /qemu/arm-softmmu/qemu-system-arm /usr/local/bin/qemu-system-arm
-COPY --from=qemu-system-arm-builder /qemu/aarch64-softmmu/qemu-system-aarch64 /usr/local/bin/qemu-system-aarch64
+COPY --from=qemu-builder /qemu/arm-softmmu/qemu-system-arm /usr/local/bin/qemu-system-arm
+COPY --from=qemu-builder /qemu/aarch64-softmmu/qemu-system-aarch64 /usr/local/bin/qemu-system-aarch64
 COPY --from=fatcat-builder /fatcat/fatcat /usr/local/bin/fatcat
 
 ADD $RPI_KERNEL_URL /tmp/qemu-rpi-kernel.zip

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-target="${1:-versatilepb}"
+target="${1:-pi1}"
 image_path="/sdcard/filesystem.img"
 zip_path="/filesystem.zip"
 
@@ -16,14 +16,14 @@ if [ ! -e $image_path ]; then
 fi
 
 fat_path="/fat.img"
-if [ "${target}" != "versatilepb" ];
+if [ "${target}" != "pi1" ];
 then
   echo "Extracting partitions"
   fdisk -l ${image_path} \
     | awk "/^[^ ]*1/{print \"dd if=${image_path} of=${fat_path} bs=512 skip=\"\$4\" count=\"\$6}" \
     | sh
 fi
-if [ "${target}" = "raspi2" ];
+if [ "${target}" = "pi2" ];
 then
   emulator=qemu-system-arm
   machine=raspi2
@@ -31,7 +31,7 @@ then
   kernel_pattern=kernel7.img
   dtb_pattern=bcm2709-rpi-2-b.dtb
   nic=''
-elif [ "${target}" = "raspi3" ];
+elif [ "${target}" = "pi3" ];
 then
   emulator=qemu-system-aarch64
   machine=raspi3
@@ -39,7 +39,7 @@ then
   kernel_pattern=kernel8.img
   dtb_pattern=bcm2710-rpi-3-b-plus.dtb
   nic=''
-elif [ "${target}" = "versatilepb" ];
+elif [ "${target}" = "pi1" ];
 then
   emulator=qemu-system-arm
   kernel="/root/qemu-rpi-kernel/kernel-qemu-4.19.50-buster"
@@ -50,7 +50,7 @@ then
   nic='--net nic --net user,hostfwd=tcp::5022-:22'
 else
   echo "Target ${target} not supported"
-  echo "Supported targets: raspi2 raspi3 versatilepb"
+  echo "Supported targets: pi1 pi2 pi3"
   exit 2
 fi
 
