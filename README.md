@@ -48,6 +48,21 @@ If you only want to mount your own image, you can download a much slimmer VM onl
 docker run -it -v /2019-09-26-raspbian-buster-lite.img:/sdcard/filesystem.img lukechilds/dockerpi:vm
 ```
 
+## Which machines are supported?
+
+By default a Raspberry Pi 1 is virtualised, however experimental support has been added for Pi 2 and Pi 3 machines.
+
+You can specify a machine by passing the name as a CLI argument:
+
+```
+docker run -it lukechilds/dockerpi pi1
+docker run -it lukechilds/dockerpi pi2
+docker run -it lukechilds/dockerpi pi3
+```
+
+> **Note:** Pi 2 and Pi 3 support is currently experimental. Networking doesn't work and QEMU hangs once the machines are powered down requiring you to `docker kill` the container. See [#4](https://github.com/lukechilds/dockerpi/pull/4) for details.
+
+
 ## Wait, what?
 
 A full ARM environment is created by using Docker to bootstrap a QEMU virtual machine. The Docker QEMU process virtualises a machine with a single core ARM11 CPU and 256MB RAM, just like the Raspberry Pi. The official Raspbian image is mounted and booted along with a modified QEMU compatible kernel.
