@@ -74,7 +74,7 @@ exec ${emulator} \
   --machine "${machine}" \
   --cpu arm1176 \
   --m "${memory}" \
-  --hda "${image_path}" \
+  --drive "format=raw,file=${image_path}" \
   ${nic} \
   --dtb "${dtb}" \
   --kernel "${kernel}" \
