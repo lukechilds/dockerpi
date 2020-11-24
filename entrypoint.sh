@@ -10,6 +10,8 @@ if [ ! -e $image_path ]; then
       echo "Extracting fresh filesystem..."
       unzip $zip_path
       mv -- *.img $image_path
+
+      qemu-img resize $image_path 2G
   else
     exit 1
   fi
