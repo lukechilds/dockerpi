@@ -15,7 +15,7 @@ if [ ! -e $image_path ]; then
   fi
 fi
 
-qemu-img resize 4G
+qemu-img resize $image_path 4G
 
 if [ "${target}" = "pi1" ]; then
   emulator=qemu-system-arm
