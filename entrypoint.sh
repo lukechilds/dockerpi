@@ -34,7 +34,7 @@ elif [ "${target}" = "pi2" ]; then
   nic='-netdev user,id=net0,hostfwd=tcp::5022-:22 -device usb-net,netdev=net0'
 elif [ "${target}" = "pi3" ]; then
 
-  echo "Rounding image size up to a multiple of 2"
+  echo "Rounding image size up to a multiple of 2G"
   image_size=`du -m $image_path | cut -f1`
   new_size=$(( ( ( image_size / 2048 ) + 1 ) * 2 ))
   echo "from ${image_size}M to ${new_size}G"
