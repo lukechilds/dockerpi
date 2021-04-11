@@ -1,6 +1,6 @@
 # Build stage for qemu-system-arm
 FROM debian:stable-slim AS qemu-builder
-ARG QEMU_VERSION=5.1.0
+ARG QEMU_VERSION=5.2.0
 ENV QEMU_TARBALL="qemu-${QEMU_VERSION}.tar.xz"
 WORKDIR /qemu
 
@@ -23,7 +23,7 @@ RUN tar xvf "${QEMU_TARBALL}"
 
 RUN # Build source
 # These seem to be the only deps actually required for a successful  build
-RUN apt-get -y install python build-essential libglib2.0-dev libpixman-1-dev
+RUN apt-get -y install python build-essential libglib2.0-dev libpixman-1-dev ninja-build
 # These don't seem to be required but are specified here: https://wiki.qemu.org/Hosts/Linux
 RUN apt-get -y install libfdt-dev zlib1g-dev
 # Not required or specified anywhere but supress build warnings
@@ -90,8 +90,8 @@ ENTRYPOINT ["./entrypoint.sh"]
 # It's just the VM image with a compressed Raspbian filesystem added
 FROM dockerpi-vm as dockerpi
 LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
-ARG FILESYSTEM_IMAGE_URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2020-02-14/2020-02-13-raspbian-buster-lite.zip"
-ARG FILESYSTEM_IMAGE_CHECKSUM="12ae6e17bf95b6ba83beca61e7394e7411b45eba7e6a520f434b0748ea7370e8"
+ARG FILESYSTEM_IMAGE_URL="https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-03-25/2021-03-04-raspios-buster-armhf-lite.zip"
+ARG FILESYSTEM_IMAGE_CHECKSUM="ea92412af99ec145438ddec3c955aa65e72ef88d84f3307cea474da005669d39"
 
 ADD $FILESYSTEM_IMAGE_URL /filesystem.zip
 

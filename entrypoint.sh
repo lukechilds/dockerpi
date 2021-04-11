@@ -15,6 +15,13 @@ if [ ! -e $image_path ]; then
   fi
 fi
 
+echo "Rounding image size up to a multiple of 2G"
+image_size=`du -m $image_path | cut -f1`
+new_size=$(( ( ( image_size / 2048 ) + 1 ) * 2 ))
+echo "from ${image_size}M to ${new_size}G"
+qemu-img resize $image_path "${new_size}G"
+
+
 if [ "${target}" = "pi1" ]; then
   emulator=qemu-system-arm
   kernel="/root/qemu-rpi-kernel/kernel-qemu-4.19.50-buster"
@@ -26,22 +33,15 @@ if [ "${target}" = "pi1" ]; then
   nic='--net nic --net user,hostfwd=tcp::5022-:22'
 elif [ "${target}" = "pi2" ]; then
   emulator=qemu-system-arm
-  machine=raspi2
+  machine=raspi2b
   memory=1024m
   kernel_pattern=kernel7.img
   dtb_pattern=bcm2709-rpi-2-b.dtb
   extra='dwc_otg.fiq_fsm_enable=0'
   nic='-netdev user,id=net0,hostfwd=tcp::5022-:22 -device usb-net,netdev=net0'
 elif [ "${target}" = "pi3" ]; then
-
-  echo "Rounding image size up to a multiple of 2G"
-  image_size=`du -m $image_path | cut -f1`
-  new_size=$(( ( ( image_size / 2048 ) + 1 ) * 2 ))
-  echo "from ${image_size}M to ${new_size}G"
-  qemu-img resize $image_path "${new_size}G"
-
   emulator=qemu-system-aarch64
-  machine=raspi3
+  machine=raspi3b
   memory=1024m
   kernel_pattern=kernel8.img
   dtb_pattern=bcm2710-rpi-3-b-plus.dtb
