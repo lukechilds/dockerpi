@@ -1,6 +1,6 @@
 # Build stage for qemu-system-arm
 FROM debian:stable-slim AS qemu-builder
-ARG QEMU_VERSION=4.2.0
+ARG QEMU_VERSION=6.0.0
 ENV QEMU_TARBALL="qemu-${QEMU_VERSION}.tar.xz"
 WORKDIR /qemu
 
@@ -23,7 +23,7 @@ RUN tar xvf "${QEMU_TARBALL}"
 
 RUN # Build source
 # These seem to be the only deps actually required for a successful  build
-RUN apt-get -y install python build-essential libglib2.0-dev libpixman-1-dev
+RUN apt-get -y install python build-essential libglib2.0-dev libpixman-1-dev ninja-build
 # These don't seem to be required but are specified here: https://wiki.qemu.org/Hosts/Linux
 RUN apt-get -y install libfdt-dev zlib1g-dev
 # Not required or specified anywhere but supress build warnings
@@ -32,7 +32,7 @@ RUN "qemu-${QEMU_VERSION}/configure" --static --target-list=arm-softmmu,aarch64-
 RUN make -j$(nproc)
 
 RUN # Strip the binary, this gives a substantial size reduction!
-RUN strip "arm-softmmu/qemu-system-arm" "aarch64-softmmu/qemu-system-aarch64"
+RUN strip "arm-softmmu/qemu-system-arm" "aarch64-softmmu/qemu-system-aarch64" "qemu-img"
 
 
 # Build stage for fatcat
@@ -67,6 +67,7 @@ ARG RPI_KERNEL_CHECKSUM="295a22f1cd49ab51b9e7192103ee7c917624b063cc5ca2e11434164
 
 COPY --from=qemu-builder /qemu/arm-softmmu/qemu-system-arm /usr/local/bin/qemu-system-arm
 COPY --from=qemu-builder /qemu/aarch64-softmmu/qemu-system-aarch64 /usr/local/bin/qemu-system-aarch64
+COPY --from=qemu-builder /qemu/qemu-img /usr/local/bin/qemu-img
 COPY --from=fatcat-builder /fatcat/fatcat /usr/local/bin/fatcat
 
 ADD $RPI_KERNEL_URL /tmp/qemu-rpi-kernel.zip

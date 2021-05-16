@@ -60,7 +60,7 @@ docker run -it lukechilds/dockerpi pi2
 docker run -it lukechilds/dockerpi pi3
 ```
 
-> **Note:** Pi 2 and Pi 3 support is currently experimental. Networking doesn't work and QEMU hangs once the machines are powered down requiring you to `docker kill` the container. See [#4](https://github.com/lukechilds/dockerpi/pull/4) for details.
+> **Note:** In the Pi 2 and Pi 3 machines, QEMU hangs once the machines are powered down requiring you to `docker kill` the container. See [#4](https://github.com/lukechilds/dockerpi/pull/4) for details.
 
 
 ## Wait, what?
