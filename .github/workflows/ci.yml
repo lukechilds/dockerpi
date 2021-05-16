@@ -47,4 +47,4 @@ jobs:
       - name: Login to Docker Hub
         run: echo "${{secrets.DOCKER_TOKEN}}" | docker login -u=lukechilds --password-stdin
       - name: Push to Docker Hub
-        run: docker push lukechilds/dockerpi
+        run: docker push --all-tags lukechilds/dockerpi
