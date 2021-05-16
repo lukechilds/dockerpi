@@ -1,5 +1,7 @@
 #!/bin/sh
 
+GIB_IN_BYTES="1073741824"
+
 target="${1:-pi1}"
 image_path="/sdcard/filesystem.img"
 zip_path="/filesystem.zip"
@@ -15,12 +17,13 @@ if [ ! -e $image_path ]; then
   fi
 fi
 
-echo "Rounding image size up to a multiple of 2G"
-image_size=`du -m $image_path | cut -f1`
-new_size=$(( ( ( image_size / 2048 ) + 1 ) * 2 ))
-echo "from ${image_size}M to ${new_size}G"
-qemu-img resize $image_path "${new_size}G"
-
+qemu-img info $image_path
+image_size_in_bytes=$(qemu-img info --output json $image_path | grep "virtual-size" | awk '{print $2}' | sed 's/,//')
+if [[ "$(($image_size_in_bytes % ($GIB_IN_BYTES * 2)))" != "0" ]]; then
+  new_size_in_gib=$((($image_size_in_bytes / ($GIB_IN_BYTES * 2) + 1) * 2))
+  echo "Rounding image size up to ${new_size_in_gib}GiB so it's a multiple of 2GiB..."
+  qemu-img resize $image_path "${new_size_in_gib}G"
+fi
 
 if [ "${target}" = "pi1" ]; then
   emulator=qemu-system-arm
