@@ -29,7 +29,7 @@ if [ "${target}" = "pi1" ]; then
   machine=versatilepb
   memory=256m
   root=/dev/sda2
-  extra=''
+  append=''
   nic='--net nic --net user,hostfwd=tcp::5022-:22'
 elif [ "${target}" = "pi2" ]; then
   emulator=qemu-system-arm
@@ -37,7 +37,7 @@ elif [ "${target}" = "pi2" ]; then
   memory=1024m
   kernel_pattern=kernel7.img
   dtb_pattern=bcm2709-rpi-2-b.dtb
-  extra='dwc_otg.fiq_fsm_enable=0'
+  append='dwc_otg.fiq_fsm_enable=0'
   nic='-netdev user,id=net0,hostfwd=tcp::5022-:22 -device usb-net,netdev=net0'
 elif [ "${target}" = "pi3" ]; then
   emulator=qemu-system-aarch64
@@ -45,7 +45,7 @@ elif [ "${target}" = "pi3" ]; then
   memory=1024m
   kernel_pattern=kernel8.img
   dtb_pattern=bcm2710-rpi-3-b-plus.dtb
-  extra='dwc_otg.fiq_fsm_enable=0'
+  append='dwc_otg.fiq_fsm_enable=0'
   nic='-netdev user,id=net0,hostfwd=tcp::5022-:22 -device usb-net,netdev=net0'
 else
   echo "Target ${target} not supported"
@@ -88,7 +88,7 @@ exec ${emulator} \
   ${nic} \
   --dtb "${dtb}" \
   --kernel "${kernel}" \
-  --append "rw earlyprintk loglevel=8 console=ttyAMA0,115200 dwc_otg.lpm_enable=0 root=${root} rootwait panic=1 ${extra}" \
+  --append "rw earlyprintk loglevel=8 console=ttyAMA0,115200 dwc_otg.lpm_enable=0 root=${root} rootwait panic=1 ${append}" \
   --no-reboot \
   --display none \
   --serial mon:stdio
