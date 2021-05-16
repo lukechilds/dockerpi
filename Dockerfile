@@ -32,7 +32,7 @@ RUN "qemu-${QEMU_VERSION}/configure" --static --target-list=arm-softmmu,aarch64-
 RUN make -j$(nproc)
 
 RUN # Strip the binary, this gives a substantial size reduction!
-RUN strip "arm-softmmu/qemu-system-arm" "aarch64-softmmu/qemu-system-aarch64"
+RUN strip "arm-softmmu/qemu-system-arm" "aarch64-softmmu/qemu-system-aarch64" "qemu-img"
 
 
 # Build stage for fatcat
@@ -90,8 +90,10 @@ ENTRYPOINT ["./entrypoint.sh"]
 # It's just the VM image with a compressed Raspbian filesystem added
 FROM dockerpi-vm as dockerpi
 LABEL maintainer="Luke Childs <lukechilds123@gmail.com>"
-ARG FILESYSTEM_IMAGE_URL="https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-03-25/2021-03-04-raspios-buster-armhf-lite.zip"
-ARG FILESYSTEM_IMAGE_CHECKSUM="ea92412af99ec145438ddec3c955aa65e72ef88d84f3307cea474da005669d39"
+ARG FILESYSTEM_IMAGE_URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-09-30/2019-09-26-raspbian-buster-lite.zip"
+ARG FILESYSTEM_IMAGE_CHECKSUM="a50237c2f718bd8d806b96df5b9d2174ce8b789eda1f03434ed2213bbca6c6ff"
+# ARG FILESYSTEM_IMAGE_URL="https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-03-25/2021-03-04-raspios-buster-armhf-lite.zip"
+# ARG FILESYSTEM_IMAGE_CHECKSUM="ea92412af99ec145438ddec3c955aa65e72ef88d84f3307cea474da005669d39"
 
 ADD $FILESYSTEM_IMAGE_URL /filesystem.zip
 
