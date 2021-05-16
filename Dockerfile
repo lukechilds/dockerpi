@@ -32,7 +32,7 @@ RUN "qemu-${QEMU_VERSION}/configure" --static --target-list=arm-softmmu,aarch64-
 RUN make -j$(nproc)
 
 RUN # Strip the binary, this gives a substantial size reduction!
-RUN strip "arm-softmmu/qemu-system-arm" "aarch64-softmmu/qemu-system-aarch64"
+RUN strip "arm-softmmu/qemu-system-arm" "aarch64-softmmu/qemu-system-aarch64" "qemu-img"
 
 
 # Build stage for fatcat
