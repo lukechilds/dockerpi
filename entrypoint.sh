@@ -29,7 +29,6 @@ if [ "${target}" = "pi1" ]; then
   machine=versatilepb
   memory=256m
   root=/dev/sda2
-  append=''
   nic='--net nic --net user,hostfwd=tcp::5022-:22'
 elif [ "${target}" = "pi2" ]; then
   emulator=qemu-system-arm
