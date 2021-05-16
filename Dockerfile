@@ -1,6 +1,6 @@
 # Build stage for qemu-system-arm
 FROM debian:stable-slim AS qemu-builder
-ARG QEMU_VERSION=5.2.0
+ARG QEMU_VERSION=6.0.0
 ENV QEMU_TARBALL="qemu-${QEMU_VERSION}.tar.xz"
 WORKDIR /qemu
 
