@@ -33,6 +33,7 @@ if [ "${target}" = "pi1" ]; then
   memory=256m
   root=/dev/sda2
   nic="--net nic --net user,hostfwd=tcp::5022-:22"
+  for fwd in $HOSTFWD; do nic="$nic,hostfwd=$fwd"; done
 elif [ "${target}" = "pi2" ]; then
   emulator=qemu-system-arm
   machine=raspi2b
@@ -40,7 +41,9 @@ elif [ "${target}" = "pi2" ]; then
   kernel_pattern=kernel7.img
   dtb_pattern=bcm2709-rpi-2-b.dtb
   append="dwc_otg.fiq_fsm_enable=0"
-  nic="-netdev user,id=net0,hostfwd=tcp::5022-:22 -device usb-net,netdev=net0"
+  nic="-netdev user,id=net0,hostfwd=tcp::5022-:22"
+  for fwd in $HOSTFWD; do nic="$nic,hostfwd=$fwd"; done
+  nic="$nic -device usb-net,netdev=net0"
 elif [ "${target}" = "pi3" ]; then
   emulator=qemu-system-aarch64
   machine=raspi3b
@@ -48,7 +51,9 @@ elif [ "${target}" = "pi3" ]; then
   kernel_pattern=kernel8.img
   dtb_pattern=bcm2710-rpi-3-b-plus.dtb
   append="dwc_otg.fiq_fsm_enable=0"
-  nic="-netdev user,id=net0,hostfwd=tcp::5022-:22 -device usb-net,netdev=net0"
+  nic="-netdev user,id=net0,hostfwd=tcp::5022-:22"
+  for fwd in $HOSTFWD; do nic="$nic,hostfwd=$fwd"; done
+  nic="$nic -device usb-net,netdev=net0"
 else
   echo "Target ${target} not supported"
   echo "Supported targets: pi1 pi2 pi3"
