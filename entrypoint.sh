@@ -25,7 +25,7 @@ if [[ "$(($image_size_in_bytes % ($GIB_IN_BYTES * 2)))" != "0" ]]; then
   qemu-img resize $image_path "${new_size_in_gib}G"
 fi
 
-for fwd in $HOSTFWD; do hostfwd="$hostfwd,hostfwd=$fwd"; done
+for fwd in $QEMU_HOSTFWD; do hostfwd="$hostfwd,hostfwd=$fwd"; done
 
 if [ "${target}" = "pi1" ]; then
   emulator=qemu-system-arm
