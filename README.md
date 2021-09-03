@@ -64,12 +64,12 @@ docker run -it lukechilds/dockerpi pi3
 
 ## Port forwarding
 
-In some applications you may want to have access to some ports of the Raspberry Pi (e.g. for SSH connection). To do so, you can set the `HOSTFWD` enviroment variable of the container by adding one or more entries, separated by spaces, in the standard QEMU format (`protocol::hostip:hostport-guestip:guestport`).
+In some applications you may want to have access to some ports of the Raspberry Pi (e.g. for SSH connection). To do so, you can set the `QEMU_HOSTFWD` enviroment variable of the container by adding one or more entries, separated by spaces, in the standard QEMU format (`protocol::hostip:hostport-guestip:guestport`).
 
 Example using the `docker run` command to expose the SSH port from the Raspberry Pi to the Container (`-e` part) and from the Container to the Host (`-p` part):
 
 ```
-docker run -it -e HOSTFWD=tcp::5022-:22 -p 5022:5022 lukechilds/dockerpi
+docker run -it -e QEMU_HOSTFWD=tcp::5022-:22 -p 5022:5022 lukechilds/dockerpi
 ```
 
 Example using the `docker-compose.yml` file to achieve the same result:
@@ -79,7 +79,7 @@ services:
   dockerpi:
     image: lukechilds/dockerpi
     environment:
-     - HOSTFWD=tcp::5022-:22
+     - QEMU_HOSTFWD=tcp::5022-:22
     ports:
      - "5022:5022"
 ```
