@@ -81,6 +81,7 @@ RUN cd /tmp && \
     rm -rf /tmp/*
 
 VOLUME /sdcard
+EXPOSE 5022
 
 ADD ./entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]
